@@ -1,8 +1,8 @@
 # data-downloader
 
-Current Support:
-Get and store EDGAR data
+####Current Support:
+EDGAR data
 
-Future Support:
-Data from articles
-Data from Twitter
+####Future Support:
+News data
+Twitter data

@@ -6,7 +6,7 @@ import subprocess
 
 class FilingFetcher:
     def __init__(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=''))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
         self.channel = self.connection.channel()
         self.download_queue = self.channel.queue_declare(queue='download_queue')
         self.downloaded = self.channel.queue_declare(queue='downloaded')
@@ -42,3 +42,7 @@ class FilingFetcher:
     def run(self):
         self.channel.basic_consume(self.process, queue=self.download_queue, no_ack=True)
         self.channel.start_consuming()
+
+if __name__ == '__main__':
+    filing_fetcher = FilingFetcher()
+    filing_fetcher.run()
