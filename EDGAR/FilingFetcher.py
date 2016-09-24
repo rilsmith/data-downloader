@@ -13,7 +13,7 @@ class FilingFetcher:
 
     def xml_path(self, filing):
         index_path = filing.replace('.txt', '-index.htm')
-        cmd = ['wget', 'https://www.sec.gov/Archives/%s' % index_path]
+        cmd = ['wget', '-P', '/home/rilsmith/downloads/', 'https://www.sec.gov/Archives/%s' % index_path]
         subprocess.call(cmd)
 
         with open(index_path.split('/')[-1], 'r') as f:
