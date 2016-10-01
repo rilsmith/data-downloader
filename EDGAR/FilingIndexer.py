@@ -36,7 +36,7 @@ class Indexer:
         return [self.get_index_for(year, quarter) for year in years for quarter in quarters]
 
     def publish(self, data):
-        self.channel.basic_publish(exchange='', routing_key=self.download_queue, body=json.dumps(data))
+        self.channel.basic_publish(exchange='', routing_key='download_queue', body=json.dumps(data))
 
     def run(self):
         indexes = self.get_indexes()

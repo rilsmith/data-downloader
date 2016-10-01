@@ -1,8 +1,6 @@
-import gzip
 import json
 import pika
 import pandas
-import pickle
 from EDGAR.Utils.UsGaap import *
 
 
@@ -22,8 +20,7 @@ class ParseDownload:
 
     def publish(self, parsed_file):
         data = {'file': parsed_file}
-        message = json.dumps(data)
-        self.channel.basic_publish(exchange='', routing_key=self.parsed_queue, body=message)
+        self.channel.basic_publish(exchange='', routing_key='parsed', body=json.dumps(data))
 
     @staticmethod
     def store(parsed_file, data_frame):
@@ -35,5 +32,5 @@ class ParseDownload:
         self.publish(parsed_file)
 
     def run(self):
-        self.channel.basic_consume(self.process, queue=self.downloaded_queue, no_ack=True)
+        self.channel.basic_consume(self.process, queue='downloaded', no_ack=True)
         self.channel.start_consuming()

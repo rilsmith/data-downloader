@@ -8,6 +8,7 @@ class FilingFetcher:
     def __init__(self):
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
         self.channel = self.connection.channel()
+        self.channel.queue_declare(queue='')
         self.download_queue = self.channel.queue_declare(queue='download_queue')
         self.downloaded = self.channel.queue_declare(queue='downloaded')
 
@@ -32,15 +33,14 @@ class FilingFetcher:
 
     def publish(self, downloaded_file):
         data = {'file': downloaded_file}
-        message = json.dumps(data)
-        self.channel.basic_publish(exchange='', routing_key=self.downloaded, body=message)
+        self.channel.basic_publish(exchange='', routing_key='downloaded', body=json.dumps(data))
 
     def process(self, catalog_entry):
         downloaded_file = self.consume(catalog_entry)
         self.publish(downloaded_file)
 
     def run(self):
-        self.channel.basic_consume(self.process, queue=self.download_queue, no_ack=True)
+        self.channel.basic_consume(self.process, queue='download_queue', no_ack=True)
         self.channel.start_consuming()
 
 if __name__ == '__main__':
