@@ -36,3 +36,7 @@ class ParseDownload:
     def run(self):
         self.channel.basic_consume(self.consume, queue='downloaded', no_ack=True)
         self.channel.start_consuming()
+
+if __name__ == '__main__':
+    parser = ParseDownload()
+    parser.run()

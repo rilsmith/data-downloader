@@ -6,7 +6,7 @@ import datetime
 import subprocess
 
 
-class Indexer:
+class FilingFinder:
     def __init__(self):
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=''))
         self.channel = self.connection.channel()
@@ -42,3 +42,7 @@ class Indexer:
         indexes = self.get_indexes()
         parsed = [self.parse(index, {}) for index in indexes]
         print(parsed)
+
+if __name__ == '__main__':
+    finder = FilingFinder()
+    finder.run()
