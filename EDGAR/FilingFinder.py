@@ -32,7 +32,7 @@ class FilingFinder:
         return data
 
     def get_indexes(self, start_year=1993, quarters=range(1, 4)):
-        years = range(start_year, int(datetime.date.year))
+        years = range(start_year, int(datetime.datetime.now().year))
         return [self.get_index_for(year, quarter) for year in years for quarter in quarters]
 
     def publish(self, data):

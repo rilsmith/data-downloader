@@ -12,7 +12,8 @@ class FilingFetcher:
         self.download_queue = self.channel.queue_declare(queue='download_queue')
         self.downloaded = self.channel.queue_declare(queue='downloaded')
 
-    def xml_path(self, filing):
+    @staticmethod
+    def xml_path(filing):
         index_path = filing.replace('.txt', '-index.htm')
         cmd = ['wget', '-P', '/home/rilsmith/downloads/', 'https://www.sec.gov/Archives/%s' % index_path]
         subprocess.call(cmd)
