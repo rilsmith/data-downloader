@@ -15,7 +15,7 @@ class FilingFinder:
     @staticmethod
     def get_index_for(year, quarter):
         os.mkdir('indexes') if not os.path.exists('indexes') else print('Index Directory Already Exists')
-        url = 'ftp://anonymous:@ftp.sec.gov/edgar/full-index/%s/%s/company.gz' % (year, quarter)
+        url = 'ftp://anonymous:@ftp.sec.gov/edgar/full-index/%s/QTR%s/company.gz' % (year, quarter)
         cmd = ['wget', '--directory-prefix=indexes', url, '-O', '%s-%s-index.gz' % (year, quarter)]
         subprocess.call(cmd)
         return 'indexes/%s-%s-index.gz' % (year, quarter)
