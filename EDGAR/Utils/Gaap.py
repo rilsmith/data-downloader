@@ -1,10 +1,9 @@
 import re
 
 
-class UsGaap:
+class Gaap:
     def __init__(self, filing):
-        self.filing = filing
-        self.gaap = self.parse(self.filing)
+        self.info = self.parse(filing)
 
     @staticmethod
     def get_context_date(filing):
@@ -26,33 +25,33 @@ class UsGaap:
             return gaap_info
 
     def get_cash(self):
-        return self.gaap['Cash'] if 'Cash' in self.gaap.keys() else 0
+        return self.info['Cash'] if 'Cash' in self.info.keys() else 0
 
     def get_assets(self):
-        return self.gaap['Assets'] if 'Assets' in self.gaap.keys() else 0
+        return self.info['Assets'] if 'Assets' in self.info.keys() else 0
 
     def get_liabilities(self):
-        return self.gaap['Liabilities'] if 'Liabilities' in self.gaap.keys() else 0
+        return self.info['Liabilities'] if 'Liabilities' in self.info.keys() else 0
 
     def get_equity(self):
-        return self.gaap['StockholdersEquity'] if 'StockholdersEquity' in self.gaap.keys() else 0
+        return self.info['StockholdersEquity'] if 'StockholdersEquity' in self.info.keys() else 0
 
     def get_shares(self):
-        return self.gaap['CommonStockSharesOutstanding'] if 'CommonStockSharesOutstanding' in self.gaap.keys() else 0
+        return self.info['CommonStockSharesOutstanding'] if 'CommonStockSharesOutstanding' in self.info.keys() else 0
 
     def get_net_income(self):
-        return self.gaap['NetIncomeLoss'] if 'NetIncomeLoss' in self.gaap.keys() else 0
+        return self.info['NetIncomeLoss'] if 'NetIncomeLoss' in self.info.keys() else 0
 
     def get_receivables(self):
         receivables = ['NotesReceivableNet', 'AccountsReceivableNet']
-        return sum([self.gaap[r] for r in receivables if r in self.gaap.keys() and self.gaap[r] is not None])
+        return sum([self.info[r] for r in receivables if r in self.info.keys() and self.info[r] is not None])
 
     def get_current_assets(self):
         return self.get_cash() + self.get_receivables()
 
     def get_current_liabilities(self):
-        return self.gaap['AccountsPayableAndAccruedLiabilitiesCurrentAndNoncurrent'] \
-            if 'AccountsPayableAndAccruedLiabilitiesCurrentAndNoncurrent' in self.gaap.keys() else 0
+        return self.info['AccountsPayableAndAccruedLiabilitiesCurrentAndNoncurrent'] \
+            if 'AccountsPayableAndAccruedLiabilitiesCurrentAndNoncurrent' in self.info.keys() else 0
 
     def get_earnings_per_share(self):
         #   Get from filing OR
